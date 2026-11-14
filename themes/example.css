@@ -1,0 +1,33 @@
+/* Theme template: copy to your project, change the values, load it AFTER core.css.
+   Only primitives are listed; every component reads semantic tokens derived from them
+   (see README "Theme API"). Anything you omit keeps the kit's neutral default. */
+:root {
+  /* Typography — load web fonts yourself (@font-face / <link>), then name them here. */
+  --font: system-ui, -apple-system, 'Helvetica Neue', sans-serif;
+  --mono: ui-monospace, 'SF Mono', Menlo, monospace;
+
+  /* Shape */
+  --radius: 14px;
+  --radius-sm: 10px;
+  --radius-pill: 980px;
+
+  /* Brand. Check contrast: --brand-contrast on --brand, and the two *-on-* colors as small
+     text on their surfaces, must each reach >= 4.5:1. */
+  --brand: #4F46E5;            /* fills: buttons, dots, borders */
+  --brand-hover: #4338CA;      /* hovered fills */
+  --brand-contrast: #FFFFFF;   /* text on a brand fill */
+  --brand-on-dark: #818CF8;    /* brand as small text on dark surfaces */
+  --brand-on-light: #4338CA;   /* brand as small text on light surfaces */
+
+  /* Neutral palettes (optional — the defaults are black/white/grey) */
+  --dark-bg: #000000;
+  --dark-section: #0A0A0A;
+  --dark-raised: #111111;
+  --dark-text: #EEEEEE;
+
+  --light-bg: #EEEEEE;
+  --light-section: #FFFFFF;
+  --light-raised: #FFFFFF;
+  --light-text: #000000;
+  --light-border: #DDDDDD;
+}

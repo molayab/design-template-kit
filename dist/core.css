@@ -1,0 +1,602 @@
+/* design-template-kit v0.1.0 — core.css */
+/* Everything: foundation + components (nav, footer, prose pages, cookie banner,
+   lightbox, theme toggle). The component styles assume the markup documented in the README. */
+/* Foundation: tokens, reset, base, typography, buttons, layout. The smallest useful
+   layer — enough to theme a site's colors, fonts and shape and use .btn / .section. */
+/* ── Reset ──────────────────────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+
+/* ── Design tokens ──────────────────────────────────────────────
+   This file is the theming API. It has two layers:
+
+   1. PRIMITIVES (top block): brand color, fonts, shape and the neutral
+      palettes. These are the values a project overrides — see
+      ../theme/grove.css for a complete example. The defaults below are a
+      deliberately neutral indigo so a project that forgets to theme itself
+      is obviously unthemed.
+
+   2. SEMANTIC tokens (--bg, --text, --accent…): what the components use.
+      They map the primitives onto the dark and light themes. Projects
+      normally don't touch these.
+
+   Theme switching: `data-theme="dark|light"` on <html> wins; without it the
+   OS preference (prefers-color-scheme) decides, dark being the default.
+*/
+
+/* ── 1. Primitives — override these ───────────────────────────── */
+:root {
+  /* Typography. Load web fonts yourself and name them here. */
+  --font: system-ui, -apple-system, 'Helvetica Neue', sans-serif;
+  --mono: ui-monospace, 'SF Mono', Menlo, monospace;
+
+  /* Shape */
+  --radius: 14px;
+  --radius-sm: 10px;
+  --radius-pill: 980px;
+
+  /* Brand */
+  --brand: #4F46E5;            /* fills: buttons, dots, borders */
+  --brand-hover: #4338CA;      /* hovered fills */
+  --brand-contrast: #FFFFFF;   /* text/icons on a brand fill (aim for >= 4.5:1) */
+  --brand-on-dark: #818CF8;    /* brand as small TEXT on dark surfaces (>= 4.5:1) */
+  --brand-on-light: #4338CA;   /* brand as small TEXT on light surfaces (>= 4.5:1) */
+
+  /* Neutral palettes */
+  --dark-bg: #000000;
+  --dark-section: #0A0A0A;     /* alternating section background */
+  --dark-raised: #111111;      /* cards, popovers */
+  --dark-text: #EEEEEE;
+
+  --light-bg: #EEEEEE;
+  --light-section: #FFFFFF;
+  --light-raised: #FFFFFF;
+  --light-text: #000000;
+  --light-border: #DDDDDD;
+}
+
+/* ── 2. Semantic tokens — dark (default) ──────────────────────── */
+:root,
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --bg: var(--dark-bg);
+  --bg-section: var(--dark-section);
+  --bg-raised: var(--dark-raised);
+  --text: var(--dark-text);
+  --text-2: color-mix(in srgb, var(--text) 68%, transparent);
+  --text-3: color-mix(in srgb, var(--text) 60%, transparent);
+  --border: color-mix(in srgb, var(--text) 14%, transparent);
+  --border-strong: color-mix(in srgb, var(--text) 24%, transparent); /* outlined buttons */
+
+  --accent: var(--brand);
+  --accent-hover: var(--brand-hover);
+  --accent-contrast: var(--brand-contrast);
+  --accent-text: var(--brand-on-dark);
+  --accent-dim: color-mix(in srgb, var(--accent) 14%, transparent);
+  --check: var(--accent);
+  --glow-alpha: 22%; /* strength of the hero's brand glow */
+
+  --shadow-md: 0 24px 48px rgba(0, 0, 0, 0.28);
+  --shadow-frame:
+    0 0 0 1px rgba(0, 0, 0, 0.4),
+    0 40px 80px rgba(0, 0, 0, 0.7),
+    0 80px 160px rgba(0, 0, 0, 0.4);
+}
+
+/* ── Light ────────────────────────────────────────────────────── */
+:root[data-theme="light"] {
+  color-scheme: light;
+  --bg: var(--light-bg);
+  --bg-section: var(--light-section);
+  --bg-raised: var(--light-raised);
+  --text: var(--light-text);
+  --text-2: color-mix(in srgb, var(--text) 62%, transparent);
+  --text-3: color-mix(in srgb, var(--text) 60%, transparent);
+  --border: var(--light-border);
+  --border-strong: color-mix(in srgb, var(--text) 24%, transparent);
+
+  --accent-text: var(--brand-on-light);
+  --accent-dim: color-mix(in srgb, var(--accent) 10%, transparent);
+  --glow-alpha: 11%;
+
+  --shadow-md: 0 18px 40px -12px rgba(0, 0, 0, 0.18);
+  --shadow-frame:
+    0 0 0 1px rgba(0, 0, 0, 0.06),
+    0 30px 60px -20px rgba(0, 0, 0, 0.28),
+    0 60px 120px -40px rgba(0, 0, 0, 0.2);
+}
+/* No data-theme (JS off): follow the OS. */
+@media (prefers-color-scheme: light) {
+  :root:not([data-theme]) {
+    color-scheme: light;
+    --bg: var(--light-bg);
+    --bg-section: var(--light-section);
+    --bg-raised: var(--light-raised);
+    --text: var(--light-text);
+    --text-2: color-mix(in srgb, var(--text) 62%, transparent);
+    --text-3: color-mix(in srgb, var(--text) 60%, transparent);
+    --border: var(--light-border);
+    --border-strong: color-mix(in srgb, var(--text) 24%, transparent);
+    --accent-text: var(--brand-on-light);
+    --accent-dim: color-mix(in srgb, var(--accent) 10%, transparent);
+    --glow-alpha: 11%;
+    --shadow-md: 0 18px 40px -12px rgba(0, 0, 0, 0.18);
+    --shadow-frame:
+      0 0 0 1px rgba(0, 0, 0, 0.06),
+      0 30px 60px -20px rgba(0, 0, 0, 0.28),
+      0 60px 120px -40px rgba(0, 0, 0, 0.2);
+  }
+}
+
+/* ── Theme-independent tokens ─────────────────────────────────── */
+:root {
+  --accent-glow: color-mix(in srgb, var(--accent) 65%, transparent); /* button hover glow */
+  --media-bg: #111111;                    /* letterbox behind screenshots / video */
+  --overlay-bg: rgba(0, 0, 0, 0.92);      /* modal viewer: always dark */
+  --overlay-fg: #EEEEEE;
+}
+
+/* ── Base ───────────────────────────────────────────────────── */
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font);
+  font-size: 17px;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+a { color: inherit; text-decoration: none; }
+
+/* ── Typography ─────────────────────────────────────────────── */
+h1 {
+  font-size: clamp(2.5rem, 6vw, 4.5rem);
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  line-height: 1.02;
+  text-wrap: balance;
+  color: var(--text);
+}
+h2 {
+  font-size: clamp(2rem, 4.5vw, 3.25rem);
+  font-weight: 800;
+  letter-spacing: -0.025em;
+  line-height: 1.08;
+  text-wrap: balance;
+  color: var(--text);
+}
+h3 {
+  font-size: 1.0625rem;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  line-height: 1.35;
+  color: var(--text);
+}
+p { color: var(--text-2); }
+
+code {
+  font-family: var(--mono);
+  font-size: 0.85em;
+  background: var(--accent-dim);
+  color: var(--accent-text);
+  padding: 0.1em 0.4em;
+  border-radius: 5px;
+}
+
+.eyebrow {
+  font-family: var(--mono);
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--accent-text);
+  margin-bottom: 0.75rem;
+}
+
+.section-sub {
+  font-size: 1.125rem;
+  color: var(--text-2);
+  max-width: 520px;
+  margin: 1rem auto 0;
+  text-align: center;
+  line-height: 1.65;
+  text-wrap: pretty;
+}
+
+/* ── Buttons ────────────────────────────────────────────────── */
+/* Works on <a>, <button> or role="button". Colors come from the theme tokens. */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.375rem;
+  padding: 0.75rem 1.5rem;
+  border-radius: var(--radius);
+  font-family: var(--font);
+  font-size: 0.9375rem;
+  font-weight: 600;
+  text-decoration: none;
+  border: 1px solid transparent;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: transform 0.15s ease, box-shadow 0.15s ease, border-color 0.15s ease, opacity 0.15s ease;
+}
+.btn:active { transform: scale(0.97); }
+.btn:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+
+.btn-primary {
+  background: var(--accent);
+  color: var(--accent-contrast);
+  border-color: var(--accent);
+  box-shadow: 0 0 0 0 transparent;
+}
+.btn-primary:hover { box-shadow: 0 10px 28px -8px var(--accent-glow); transform: translateY(-1px); }
+
+.btn-primary-dark { background: var(--accent); color: var(--accent-contrast); border-color: var(--accent); }
+.btn-primary-dark:hover { box-shadow: 0 10px 28px -8px var(--accent-glow); }
+
+/* Ghost — outlined, follows the surface it's on */
+.btn-ghost {
+  background: transparent;
+  color: var(--text);
+  border-color: var(--border-strong);
+}
+.btn-ghost:hover { border-color: var(--text-2); }
+
+.btn-large {
+  padding: 0.9375rem 2rem;
+  font-size: 1.0625rem;
+}
+
+/* ── Section wrapper ────────────────────────────────────────── */
+.section {
+  padding: 96px 2rem;
+  text-align: center;
+}
+.section-inner {
+  max-width: 980px;
+  margin: 0 auto;
+}
+
+@media (max-width: 600px) {
+  .section { padding: 72px 1.5rem; }
+}
+
+/* ── Nav ────────────────────────────────────────────────────── */
+/* `body > nav` (not bare `nav`) so any nested <nav> doesn't pick up the
+   sticky site-nav chrome and light-mode background. */
+body > nav {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  backdrop-filter: saturate(180%) blur(20px);
+  -webkit-backdrop-filter: saturate(180%) blur(20px);
+  background: color-mix(in srgb, var(--bg) 78%, transparent);
+  border-bottom: 1px solid var(--border);
+}
+
+.nav-inner {
+  width: 100%;
+  max-width: 980px;
+  margin: 0 auto;
+  padding: 0 2rem;
+  height: 56px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.logo {
+  font-size: 1.0625rem;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  color: var(--text);
+}
+
+.nav-link {
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: var(--text-2);
+  transition: color 0.15s;
+  padding: 0.25rem 0;
+}
+.nav-link:hover { color: var(--text); }
+
+.nav-links { display: flex; gap: 0.625rem; align-items: center; margin-left: auto; margin-right: 0.625rem; }
+.nav-actions { display: flex; gap: 0.625rem; align-items: center; }
+.nav-actions .btn { padding: 0.5rem 1.2rem; font-size: 0.875rem; }
+
+/* Language switcher — part of .nav-actions, which stays on the top row on mobile */
+.lang-link {
+  font-family: var(--mono);
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--text-2);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-pill);
+  padding: 0.3rem 0.7rem;
+  transition: color 0.15s, border-color 0.15s;
+}
+.lang-link:hover { color: var(--text); border-color: var(--text-2); }
+
+/* ── Footer ─────────────────────────────────────────────────── */
+footer {
+  border-top: 1px solid var(--border);
+  background: var(--bg);
+}
+.footer-inner {
+  max-width: 980px;
+  margin: 0 auto;
+  padding: 1.25rem 2rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+.footer-links {
+  display: flex;
+  gap: 1.5rem;
+}
+.footer-links a {
+  font-size: 0.8125rem;
+  color: var(--text-2);
+  transition: color 0.15s;
+}
+.footer-links a:hover { color: var(--text); }
+.footer-copy {
+  font-size: 0.8125rem;
+  color: var(--text-3);
+}
+.footer-copy a { color: inherit; text-decoration: underline; text-underline-offset: 2px; }
+.footer-copy a:hover { color: var(--text-2); }
+
+/* ── Legal pages ────────────────────────────────────────────── */
+.legal { text-align: left; }
+.legal-inner { max-width: 680px; }
+
+.legal-title {
+  font-size: clamp(2rem, 5vw, 2.75rem);
+  margin-bottom: 0.5rem;
+}
+.legal-updated {
+  font-size: 0.875rem;
+  color: var(--text-3);
+  margin-bottom: 2.5rem;
+}
+
+.legal-callout {
+  background: var(--accent-dim);
+  border: 1px solid color-mix(in srgb, var(--accent) 30%, transparent);
+  border-radius: var(--radius-sm);
+  padding: 1.25rem 1.5rem;
+  font-size: 0.9375rem;
+  color: var(--text-2);
+  line-height: 1.6;
+  margin-bottom: 3rem;
+}
+.legal-callout a:not(.btn) { color: var(--accent-text); text-decoration: underline; }
+
+.legal-prose h2 {
+  font-size: 1.375rem;
+  margin: 2.5rem 0 1rem;
+}
+.legal-prose h2:first-child { margin-top: 0; }
+.legal-prose p {
+  font-size: 0.9375rem;
+  line-height: 1.7;
+  margin-bottom: 1rem;
+}
+.legal-prose ul {
+  margin: 0 0 1rem 1.25rem;
+  padding: 0;
+}
+.legal-prose li {
+  font-size: 0.9375rem;
+  color: var(--text-2);
+  line-height: 1.7;
+  margin-bottom: 0.375rem;
+}
+.legal-prose a:not(.btn) {
+  color: var(--accent-text);
+  text-decoration: underline;
+}
+.legal-prose strong { color: var(--text); }
+.legal-prose table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.875rem;
+  margin: 1.25rem 0 1.5rem;
+}
+.legal-prose th,
+.legal-prose td {
+  text-align: left;
+  vertical-align: top;
+  padding: 0.5rem 1rem 0.5rem 0;
+  border-bottom: 1px solid var(--border);
+}
+.legal-prose th { color: var(--text); font-weight: 600; }
+
+.guide .legal-title { line-height: 1.15; }
+.legal-prose h3 { font-size: 1.0625rem; margin: 1.75rem 0 0.5rem; }
+.legal-prose code { font-size: 0.875em; }
+.legal-prose figure { margin: 2rem 0; }
+.legal-prose figure img {
+  display: block;
+  width: 100%;
+  height: auto;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+}
+.legal-prose figcaption { font-size: 0.8125rem; color: var(--text-3); margin-top: 0.625rem; }
+.guide-cta { margin-top: 3rem; }
+.guide-cta p { margin: 1rem 0 0; }
+
+/* ── Cookie banner ──────────────────────────────────────────── */
+.cookie-banner {
+  position: fixed;
+  left: 1rem;
+  right: 1rem;
+  bottom: 1rem;
+  z-index: 200;
+  max-width: 640px;
+  margin: 0 auto;
+  background: var(--bg-raised);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  box-shadow: 0 20px 50px -20px rgba(0, 0, 0, 0.5);
+  padding: 1.25rem 1.5rem;
+}
+.cookie-banner[hidden] { display: none; }
+.cookie-banner-inner {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+  flex-wrap: wrap;
+}
+.cookie-banner-text {
+  flex: 1 1 320px;
+  font-size: 0.8125rem;
+  color: var(--text-2);
+  line-height: 1.6;
+}
+.cookie-banner-text a { color: var(--accent-text); text-decoration: underline; }
+.cookie-banner-actions {
+  display: flex;
+  gap: 0.75rem;
+  flex-shrink: 0;
+  margin-left: auto;
+}
+.cookie-banner-btn { padding: 0.625rem 1.25rem; font-size: 0.8125rem; }
+
+/* ── Screenshot lightbox ────────────────────────────────────── */
+/* Always dark (--overlay-*) — it's a photo viewer, not themed chrome.
+   Built on <dialog>; it is positioned here so it doesn't depend on any
+   framework's dialog styles. */
+html:has(dialog.lightbox[open]) { overflow: hidden; }
+dialog.lightbox {
+  position: fixed;
+  inset: 0;
+  z-index: 300;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  max-width: none;
+  max-height: none;
+  margin: 0;
+  border: 0;
+  padding: 4rem 5rem;
+  background-color: var(--overlay-bg);
+  -webkit-backdrop-filter: blur(6px);
+  backdrop-filter: blur(6px);
+  color: var(--overlay-fg);
+}
+dialog.lightbox:not([open]) { display: none; }
+dialog.lightbox::backdrop { background: transparent; }
+
+.lightbox-figure {
+  margin: 0;
+  max-width: 100%;
+  max-height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+}
+.lightbox-figure img {
+  display: block;
+  max-width: 100%;
+  max-height: calc(100vh - 12rem);
+  max-height: calc(100dvh - 12rem);
+  width: auto;
+  height: auto;
+  border-radius: var(--radius-sm);
+  border: 1px solid color-mix(in srgb, var(--overlay-fg) 14%, transparent);
+  box-shadow: 0 40px 80px rgba(0, 0, 0, 0.6);
+}
+.lightbox-figure figcaption {
+  max-width: 640px;
+  font-size: 0.9375rem;
+  line-height: 1.5;
+  text-align: center;
+  color: color-mix(in srgb, var(--overlay-fg) 68%, transparent);
+}
+
+.lightbox-btn {
+  position: absolute;
+  width: 44px;
+  height: 44px;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  border: 1px solid color-mix(in srgb, var(--overlay-fg) 14%, transparent);
+  background: color-mix(in srgb, var(--overlay-fg) 8%, transparent);
+  color: var(--overlay-fg);
+  font-family: var(--font);
+  font-size: 1.25rem;
+  line-height: 1;
+  cursor: pointer;
+  transition: background 0.15s ease, border-color 0.15s ease;
+}
+.lightbox-btn:hover { background: color-mix(in srgb, var(--overlay-fg) 16%, transparent); border-color: color-mix(in srgb, var(--overlay-fg) 32%, transparent); }
+.lightbox-btn:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; box-shadow: none; }
+.lightbox-close { top: 1rem; right: 1rem; font-size: 1.625rem; }
+.lightbox-prev  { left: 1rem;  top: 50%; transform: translateY(-50%); }
+.lightbox-next  { right: 1rem; top: 50%; transform: translateY(-50%); }
+
+@media (max-width: 600px) {
+  dialog.lightbox { padding: 4rem 0.75rem 5.5rem; }
+  .lightbox-prev,
+  .lightbox-next { top: auto; bottom: 1rem; transform: none; }
+  .lightbox-prev { left: calc(50% - 52px); }
+  .lightbox-next { right: calc(50% - 52px); }
+}
+
+.screenshot-caption {
+  margin-top: 1rem;
+  font-size: 0.9375rem;
+  color: var(--text-2);
+  line-height: 1.5;
+}
+
+/* ── Theme toggle ───────────────────────────────────────────── */
+.theme-toggle {
+  background: transparent;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  width: 34px;
+  height: 34px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  color: var(--text-2);
+  transition: color 0.15s;
+  flex-shrink: 0;
+}
+.theme-toggle:hover { color: var(--text); }
+.theme-toggle:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+/* ── Responsive (core) ──────────────────────────────────────── */
+@media (max-width: 600px) {
+  /* Nav: logo + language + CTA on the first row, section links on a second row. */
+  .nav-inner { height: auto; flex-wrap: wrap; padding-top: 0.5rem; padding-bottom: 0; row-gap: 0.25rem; }
+  .nav-actions { margin-left: auto; }
+  .nav-links {
+    order: 3;
+    width: 100%;
+    margin: 0;
+    justify-content: space-between;
+    border-top: 1px solid var(--border);
+    padding: 0.125rem 0;
+  }
+  .nav-link { padding: 0.5rem 0.25rem; }
+  .footer-inner { flex-direction: column; align-items: flex-start; gap: 0.75rem; }
+  .footer-links { flex-wrap: wrap; gap: 1rem; }
+  .cookie-banner { left: 0.75rem; right: 0.75rem; bottom: 0.75rem; padding: 1.125rem; }
+  .cookie-banner-actions { width: 100%; margin-left: 0; }
+  .cookie-banner-actions .btn { flex: 1 1 0; justify-content: center; }
+}

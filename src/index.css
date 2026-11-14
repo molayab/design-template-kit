@@ -1,0 +1,10 @@
+/* Everything: foundation + components (nav, footer, prose pages, cookie banner,
+   lightbox, theme toggle). The component styles assume the markup documented in the README. */
+@import './foundation.css';
+@import './nav.css';
+@import './footer.css';
+@import './prose.css';
+@import './cookie-banner.css';
+@import './lightbox.css';
+@import './theme-toggle.css';
+@import './responsive.css';

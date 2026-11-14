@@ -1,0 +1,23 @@
+{
+  "name": "design-template-kit",
+  "version": "0.1.0",
+  "description": "Brand-neutral, themeable CSS (tokens, base, components) for static sites. Colors, fonts and shape are CSS variables you override in a theme file.",
+  "type": "module",
+  "files": ["dist", "src", "themes"],
+  "style": "dist/core.css",
+  "exports": {
+    ".": "./dist/core.css",
+    "./core.css": "./dist/core.css",
+    "./foundation.css": "./dist/foundation.css",
+    "./tokens.css": "./dist/tokens.css",
+    "./src/*": "./src/*",
+    "./themes/*": "./themes/*",
+    "./package.json": "./package.json"
+  },
+  "scripts": {
+    "build": "node scripts/build.mjs",
+    "check": "node scripts/build.mjs && git diff --exit-code -- dist"
+  },
+  "repository": { "type": "git", "url": "git+https://github.com/molayab/design-template-kit.git" },
+  "author": "Mateo Olaya Bernal"
+}
