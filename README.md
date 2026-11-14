@@ -89,3 +89,7 @@ minor; a fix is patch. To release:
 2. `npm run build` and commit `dist/` with the source (CI fails if `dist/` is stale).
 3. Tag `vX.Y.Z` and push the tag; create a GitHub release.
 4. Consumers bump the tag in their `package.json`.
+
+## License
+
+[MIT](LICENSE) © 2026 Mateo Olaya Bernal. The kit contains no third-party code.
