@@ -93,6 +93,33 @@ background). It is a no-op for pages that do not use the modifier. Tunable varia
 
 Transitions are disabled under `prefers-reduced-motion: reduce`.
 
+## Theme switch
+
+`.theme-switch` (since 0.3.0) is a segmented control for choosing a theme (System / Light / Dark).
+It is a separate component from `.theme-toggle`: never put `.theme-toggle` on a group, it would
+inherit that class's single-button 34px size. The kit ships no JS; each site stores the choice and
+sets `data-theme`. Markup contract: a labelled `role="group"` wrapper (add `hidden` and reveal it
+from JS so it stays out of the way without scripting), with native `<button type="button">`
+children carrying an accessible name and `aria-pressed`, and a 16px SVG icon each.
+
+```html
+<div class="theme-switch" role="group" aria-label="Theme" hidden>
+  <button type="button" class="theme-switch__option" aria-pressed="true" aria-label="System">…</button>
+  <button type="button" class="theme-switch__option" aria-pressed="false" aria-label="Light">…</button>
+  <button type="button" class="theme-switch__option" aria-pressed="false" aria-label="Dark">…</button>
+</div>
+```
+
+| Variable | Default | Effect |
+|---|---|---|
+| `--theme-switch-size` | 28px | segment width and height |
+| `--theme-switch-size-touch` | 44px | segment size at <= 600px or `pointer: coarse` |
+| `--theme-switch-active-border` | text at 50% (`color-mix`) | outline of the pressed segment (>= 3:1) |
+
+The pressed segment is also marked by an accent tint and a heavier icon stroke, so state is not
+colour alone. Focus ring is 2px `--accent`, drawn inside the pill. Transitions are disabled under
+`prefers-reduced-motion: reduce`.
+
 ## Conventions
 
 - No brand colors in the kit — only tokens and `color-mix()` of tokens (black drop-shadows are
