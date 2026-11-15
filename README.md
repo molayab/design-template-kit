@@ -68,6 +68,20 @@ of `--accent`, so a new brand color needs no other edits.
 </script>
 ```
 
+## Floating theme toggle
+
+`.theme-toggle` is an inline 34px button. Add the opt-in modifier `.theme-toggle--floating`
+(since 0.1.2) to pin it to the top-right corner (fixed, 36px, 10px radius, `--bg-raised`
+background). It is a no-op for pages that do not use the modifier. Tunable variables:
+
+| Variable | Default (floating) | Effect |
+|---|---|---|
+| `--theme-toggle-size` | 36px (34px without the modifier) | width and height |
+| `--theme-toggle-offset` | 20px | distance from the top and right edges |
+| `--theme-toggle-radius` | 10px | corner radius |
+
+Transitions are disabled under `prefers-reduced-motion: reduce`.
+
 ## Conventions
 
 - No brand colors in the kit — only tokens and `color-mix()` of tokens (black drop-shadows are
