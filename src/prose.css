@@ -1,6 +1,6 @@
 /* ── Legal pages ────────────────────────────────────────────── */
 .legal { text-align: left; }
-.legal-inner { max-width: 680px; }
+.legal-inner { max-width: calc(680px + 2 * var(--gutter)); }
 
 .legal-title {
   font-size: clamp(2rem, 5vw, 2.75rem);

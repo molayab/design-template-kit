@@ -1,4 +1,4 @@
-/* design-template-kit v0.1.2 — tokens.css */
+/* design-template-kit v0.2.0 — tokens.css */
 /* ── Design tokens ──────────────────────────────────────────────
    This file is the theming API. It has two layers:
 
@@ -26,6 +26,14 @@
   --radius: 14px;
   --radius-sm: 10px;
   --radius-pill: 980px;
+
+  /* Page frame. Every band (nav, sections, footer) uses the same gutter, and
+     each `*-inner` has max-width = measure + 2 * gutter, so the content box is
+     exactly the measure. `--page-max` is the reading column, `--page-max-wide`
+     the frame for nav, footer and wide sections (`.section-inner--wide`). */
+  --gutter: 2rem;              /* lateral padding of every inner */
+  --page-max: 980px;           /* default content width (excludes gutter) */
+  --page-max-wide: 1160px;     /* wide content width (excludes gutter) */
 
   /* Brand */
   --brand: #4F46E5;            /* fills: buttons, dots, borders */
@@ -126,4 +134,9 @@
   --media-bg: #111111;                    /* letterbox behind screenshots / video */
   --overlay-bg: rgba(0, 0, 0, 0.92);      /* modal viewer: always dark */
   --overlay-fg: #EEEEEE;
+}
+
+/* Narrower gutter on small screens, set once for every band. */
+@media (max-width: 600px) {
+  :root { --gutter: 1.5rem; }
 }

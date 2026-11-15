@@ -1,13 +1,20 @@
 /* ── Section wrapper ────────────────────────────────────────── */
+/* The band owns only vertical padding; `.section-inner` owns the gutter and
+   its max-width includes it, so the content box is exactly the measure. */
 .section {
-  padding: 96px 2rem;
+  padding: 96px 0;
   text-align: center;
 }
 .section-inner {
-  max-width: 980px;
+  max-width: calc(var(--page-max) + 2 * var(--gutter));
   margin: 0 auto;
+  padding-inline: var(--gutter);
+}
+/* Wide frame: same as the nav and footer. */
+.section-inner--wide {
+  max-width: calc(var(--page-max-wide) + 2 * var(--gutter));
 }
 
 @media (max-width: 600px) {
-  .section { padding: 72px 1.5rem; }
+  .section { padding: 72px 0; }
 }

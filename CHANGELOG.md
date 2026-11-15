@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.2.0
+Visual change for consumers (minor bump): one shared page frame.
+- Add `--gutter` (2rem, 1.5rem at <= 600px), `--page-max` (980px) and `--page-max-wide` (1160px) tokens.
+- `.nav-inner`, `.footer-inner`, `.section-inner` and `.legal-inner` now take `max-width: calc(<measure> + 2 * var(--gutter))` and `padding-inline: var(--gutter)`, so max-width includes the gutter and content is exactly the measure. `.section` no longer has horizontal padding (the inner owns it). Net effect: nav and footer content widen from 916px to 1160px, section content stays 980px, all bands share the same gutter, and the 600px mismatch (sections 24px vs nav 32px) is gone.
+- Add `.section-inner--wide` (content `--page-max-wide`) for sections that should share the nav/footer frame.
+- Includes the floating theme toggle from 0.1.2 (`.theme-toggle--floating`, `--theme-toggle-size|offset|radius`), now released with this version.
+- Migration: a `.section-inner` that is not inside `.section` now gets the gutter too; sites that override `.x .section-inner { max-width: 1160px }` should switch to `.section-inner--wide`; custom `.hero`-like bands with their own `padding-inline` should use `var(--gutter)` on their inner.
+
 ## 0.1.2
 - Add opt-in `.theme-toggle--floating` modifier (fixed top-right) with `--theme-toggle-size`, `--theme-toggle-offset` and `--theme-toggle-radius`. The base `.theme-toggle` reads its size from `--theme-toggle-size` (default 34px, so unchanged). Backward-compatible.
 

@@ -1,4 +1,4 @@
-/* design-template-kit v0.1.2 — core.css */
+/* design-template-kit v0.2.0 — core.css */
 /* Everything: foundation + components (nav, footer, prose pages, cookie banner,
    lightbox, theme toggle). The component styles assume the markup documented in the README. */
 /* Foundation: tokens, reset, base, typography, buttons, layout. The smallest useful
@@ -34,6 +34,14 @@ html { scroll-behavior: smooth; }
   --radius: 14px;
   --radius-sm: 10px;
   --radius-pill: 980px;
+
+  /* Page frame. Every band (nav, sections, footer) uses the same gutter, and
+     each `*-inner` has max-width = measure + 2 * gutter, so the content box is
+     exactly the measure. `--page-max` is the reading column, `--page-max-wide`
+     the frame for nav, footer and wide sections (`.section-inner--wide`). */
+  --gutter: 2rem;              /* lateral padding of every inner */
+  --page-max: 980px;           /* default content width (excludes gutter) */
+  --page-max-wide: 1160px;     /* wide content width (excludes gutter) */
 
   /* Brand */
   --brand: #4F46E5;            /* fills: buttons, dots, borders */
@@ -134,6 +142,11 @@ html { scroll-behavior: smooth; }
   --media-bg: #111111;                    /* letterbox behind screenshots / video */
   --overlay-bg: rgba(0, 0, 0, 0.92);      /* modal viewer: always dark */
   --overlay-fg: #EEEEEE;
+}
+
+/* Narrower gutter on small screens, set once for every band. */
+@media (max-width: 600px) {
+  :root { --gutter: 1.5rem; }
 }
 
 /* ── Base ───────────────────────────────────────────────────── */
@@ -247,17 +260,24 @@ code {
 }
 
 /* ── Section wrapper ────────────────────────────────────────── */
+/* The band owns only vertical padding; `.section-inner` owns the gutter and
+   its max-width includes it, so the content box is exactly the measure. */
 .section {
-  padding: 96px 2rem;
+  padding: 96px 0;
   text-align: center;
 }
 .section-inner {
-  max-width: 980px;
+  max-width: calc(var(--page-max) + 2 * var(--gutter));
   margin: 0 auto;
+  padding-inline: var(--gutter);
+}
+/* Wide frame: same as the nav and footer. */
+.section-inner--wide {
+  max-width: calc(var(--page-max-wide) + 2 * var(--gutter));
 }
 
 @media (max-width: 600px) {
-  .section { padding: 72px 1.5rem; }
+  .section { padding: 72px 0; }
 }
 
 /* ── Nav ────────────────────────────────────────────────────── */
@@ -275,9 +295,9 @@ body > nav {
 
 .nav-inner {
   width: 100%;
-  max-width: 980px;
+  max-width: calc(var(--page-max-wide) + 2 * var(--gutter));
   margin: 0 auto;
-  padding: 0 2rem;
+  padding: 0 var(--gutter);
   height: 56px;
   display: flex;
   justify-content: space-between;
@@ -323,9 +343,9 @@ footer {
   background: var(--bg);
 }
 .footer-inner {
-  max-width: 980px;
+  max-width: calc(var(--page-max-wide) + 2 * var(--gutter));
   margin: 0 auto;
-  padding: 1.25rem 2rem;
+  padding: 1.25rem var(--gutter);
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -351,7 +371,7 @@ footer {
 
 /* ── Legal pages ────────────────────────────────────────────── */
 .legal { text-align: left; }
-.legal-inner { max-width: 680px; }
+.legal-inner { max-width: calc(680px + 2 * var(--gutter)); }
 
 .legal-title {
   font-size: clamp(2rem, 5vw, 2.75rem);
