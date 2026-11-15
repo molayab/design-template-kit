@@ -4,9 +4,9 @@ footer {
   background: var(--bg);
 }
 .footer-inner {
-  max-width: 980px;
+  max-width: calc(var(--page-max-wide) + 2 * var(--gutter));
   margin: 0 auto;
-  padding: 1.25rem 2rem;
+  padding: 1.25rem var(--gutter);
   display: flex;
   justify-content: space-between;
   align-items: center;

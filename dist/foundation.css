@@ -1,4 +1,4 @@
-/* design-template-kit v0.1.1 — foundation.css */
+/* design-template-kit v0.2.0 — foundation.css */
 /* Foundation: tokens, reset, base, typography, buttons, layout. The smallest useful
    layer — enough to theme a site's colors, fonts and shape and use .btn / .section. */
 /* ── Reset ──────────────────────────────────────────────────── */
@@ -32,6 +32,14 @@ html { scroll-behavior: smooth; }
   --radius: 14px;
   --radius-sm: 10px;
   --radius-pill: 980px;
+
+  /* Page frame. Every band (nav, sections, footer) uses the same gutter, and
+     each `*-inner` has max-width = measure + 2 * gutter, so the content box is
+     exactly the measure. `--page-max` is the reading column, `--page-max-wide`
+     the frame for nav, footer and wide sections (`.section-inner--wide`). */
+  --gutter: 2rem;              /* lateral padding of every inner */
+  --page-max: 980px;           /* default content width (excludes gutter) */
+  --page-max-wide: 1160px;     /* wide content width (excludes gutter) */
 
   /* Brand */
   --brand: #4F46E5;            /* fills: buttons, dots, borders */
@@ -132,6 +140,11 @@ html { scroll-behavior: smooth; }
   --media-bg: #111111;                    /* letterbox behind screenshots / video */
   --overlay-bg: rgba(0, 0, 0, 0.92);      /* modal viewer: always dark */
   --overlay-fg: #EEEEEE;
+}
+
+/* Narrower gutter on small screens, set once for every band. */
+@media (max-width: 600px) {
+  :root { --gutter: 1.5rem; }
 }
 
 /* ── Base ───────────────────────────────────────────────────── */
@@ -245,15 +258,22 @@ code {
 }
 
 /* ── Section wrapper ────────────────────────────────────────── */
+/* The band owns only vertical padding; `.section-inner` owns the gutter and
+   its max-width includes it, so the content box is exactly the measure. */
 .section {
-  padding: 96px 2rem;
+  padding: 96px 0;
   text-align: center;
 }
 .section-inner {
-  max-width: 980px;
+  max-width: calc(var(--page-max) + 2 * var(--gutter));
   margin: 0 auto;
+  padding-inline: var(--gutter);
+}
+/* Wide frame: same as the nav and footer. */
+.section-inner--wide {
+  max-width: calc(var(--page-max-wide) + 2 * var(--gutter));
 }
 
 @media (max-width: 600px) {
-  .section { padding: 72px 1.5rem; }
+  .section { padding: 72px 0; }
 }

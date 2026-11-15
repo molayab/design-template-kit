@@ -13,9 +13,9 @@ body > nav {
 
 .nav-inner {
   width: 100%;
-  max-width: 980px;
+  max-width: calc(var(--page-max-wide) + 2 * var(--gutter));
   margin: 0 auto;
-  padding: 0 2rem;
+  padding: 0 var(--gutter);
   height: 56px;
   display: flex;
   justify-content: space-between;

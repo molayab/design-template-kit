@@ -1,6 +1,6 @@
 {
   "name": "design-template-kit",
-  "version": "0.1.1",
+  "version": "0.2.0",
   "description": "Brand-neutral, themeable CSS (tokens, base, components) for static sites. Colors, fonts and shape are CSS variables you override in a theme file.",
   "license": "MIT",
   "type": "module",

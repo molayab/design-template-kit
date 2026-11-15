@@ -23,7 +23,7 @@ by `npm run build` and committed so the package can be installed straight from G
 
 **Astro / any bundler**
 ```sh
-npm install https://github.com/molayab/design-template-kit/archive/refs/tags/v0.1.0.tar.gz
+npm install https://github.com/molayab/design-template-kit/archive/refs/tags/v0.2.0.tar.gz
 ```
 ```css
 /* styles/index.css */
@@ -33,7 +33,7 @@ npm install https://github.com/molayab/design-template-kit/archive/refs/tags/v0.
 Upgrading = change the tag in `package.json` and re-install. Pin tags; never track `main`.
 
 **Static HTML / Jekyll** (no bundler): copy or serve `dist/core.css` from this repo's tag
-(e.g. via jsDelivr `…/gh/molayab/design-template-kit@v0.1.0/dist/core.css`) and add your theme
+(e.g. via jsDelivr `…/gh/molayab/design-template-kit@v0.2.0/dist/core.css`) and add your theme
 `<link>` after it.
 
 ## Theme API
@@ -44,6 +44,7 @@ Copy [`themes/example.css`](themes/example.css) and override on `:root`:
 |---|---|
 | Fonts | `--font`, `--mono` |
 | Shape | `--radius`, `--radius-sm`, `--radius-pill` |
+| Page frame (since 0.2.0) | `--gutter` (2rem; 1.5rem at <= 600px), `--page-max` (980px reading column), `--page-max-wide` (1160px frame for nav, footer and `.section-inner--wide`). Both widths exclude the gutter |
 | Brand | `--brand` (fills), `--brand-hover`, `--brand-contrast` (text on a fill), `--brand-on-dark` / `--brand-on-light` (brand as small **text**; keep ≥ 4.5:1 on that surface) |
 | Dark palette | `--dark-bg`, `--dark-section`, `--dark-raised`, `--dark-text` |
 | Light palette | `--light-bg`, `--light-section`, `--light-raised`, `--light-text`, `--light-border` |
@@ -67,6 +68,30 @@ of `--accent`, so a new brand color needs no other edits.
   })();
 </script>
 ```
+
+## Page frame
+
+Every band shares one lateral frame. The *inner* element owns the gutter and its `max-width`
+includes it: `max-width: calc(<measure> + 2 * var(--gutter))`, `padding-inline: var(--gutter)`,
+so the content box is exactly the measure. `.nav-inner` and `.footer-inner` use `--page-max-wide`;
+`.section-inner` uses `--page-max`; add `.section-inner--wide` (since 0.2.0) to put a section on
+the same wide frame as the nav and footer. `.section` only has vertical padding. `.legal-inner`
+(680px) keeps its narrow column and the same gutter. Sites should use `var(--gutter)` for their
+own bands instead of hard-coding `2rem`.
+
+## Floating theme toggle
+
+`.theme-toggle` is an inline 34px button. Add the opt-in modifier `.theme-toggle--floating`
+(since 0.1.2) to pin it to the top-right corner (fixed, 36px, 10px radius, `--bg-raised`
+background). It is a no-op for pages that do not use the modifier. Tunable variables:
+
+| Variable | Default (floating) | Effect |
+|---|---|---|
+| `--theme-toggle-size` | 36px (34px without the modifier) | width and height |
+| `--theme-toggle-offset` | 20px | distance from the top and right edges |
+| `--theme-toggle-radius` | 10px | corner radius |
+
+Transitions are disabled under `prefers-reduced-motion: reduce`.
 
 ## Conventions
 
