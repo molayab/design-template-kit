@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.3.0
+New opt-in component, backward compatible.
+- Add `.theme-switch` / `.theme-switch__option`: a segmented, `aria-pressed` control for choosing between themes (e.g. System / Light / Dark). 28px segments, 44px at <= 600px or on coarse pointers; the active segment gets an accent tint, a stronger outline (text at 50%, >= 3:1) and a heavier icon stroke. Options never shrink (`flex: 0 0 auto`).
+- Custom properties: `--theme-switch-size`, `--theme-switch-size-touch`, `--theme-switch-active-border`.
+- `.theme-toggle` and `.theme-toggle--floating` are unchanged and remain a single 34px button; do not use `.theme-toggle` for a group (it would inherit the 34px box).
+
 ## 0.2.0
 Visual change for consumers (minor bump): one shared page frame.
 - Add `--gutter` (2rem, 1.5rem at <= 600px), `--page-max` (980px) and `--page-max-wide` (1160px) tokens.
