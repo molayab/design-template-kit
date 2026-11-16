@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.4.0
+Visual and markup change for consumers of the nav (minor bump).
+- Add a collapsible nav at <= 860px: `.nav-toggle` (icon-only menu button, 36px with a 44px hit area, `.nav-toggle__icon` morphs to an X on `aria-expanded="true"`) and `.nav-menu` (disclosure panel; `.is-open` shows it). Opt-in: the panel and button only apply when `<html>` has the class `nav-enhanced`, set by a script before first paint.
+- Markup contract: `nav > .nav-inner > .logo, .nav-actions (.lang-link + .nav-toggle), .nav-menu (.nav-links + .btn)`. Above 860px `.nav-menu` is `display: contents`, so the desktop nav looks unchanged; the CTA moved out of `.nav-actions` into `.nav-menu`.
+- Add `.nav-inner--inline` for bars that never collapse (few links, e.g. legal pages).
+- No-JS fallback (<= 600px, without `nav-enhanced`): the second row of links aligns to the frame edges (no inset padding) and the extra `border-top` is gone, leaving one hairline.
+- Migration: move the CTA `.btn` from `.nav-actions` into `.nav-menu` after `.nav-links`; add `.nav-toggle` to `.nav-actions` and an `id` on `.nav-menu` referenced by the button's `aria-controls`; set `nav-enhanced` on `<html>` from JS.
+
 ## 0.3.0
 New opt-in component, backward compatible.
 - Add `.theme-switch` / `.theme-switch__option`: a segmented, `aria-pressed` control for choosing between themes (e.g. System / Light / Dark). 28px segments, 44px at <= 600px or on coarse pointers; the active segment gets an accent tint, a stronger outline (text at 50%, >= 3:1) and a heavier icon stroke. Options never shrink (`flex: 0 0 auto`).
