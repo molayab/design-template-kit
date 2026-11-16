@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.4.1
+Bug fix (patch): footer links no longer overflow the page.
+- `.footer-links` now has `flex-wrap: wrap` at every width (row gap 0.5rem, column gap 1.5rem). Before, wrapping was only enabled at <= 600px, so between 601px and ~745px a long link row (for example Spanish labels plus `.theme-switch`) had a 713px floor width, spilled past the right gutter and caused horizontal scroll. Links wrap as whole items, never mid-label.
+- The `max-width: 600px` rule keeps only `gap: 1rem`; wrapping comes from the base rule.
+- Side effect: a footer whose links wrapped nowhere before is unchanged; one that overflowed now grows by a row (about 17px on a 1440px Spanish footer).
+
 ## 0.4.0
 Visual and markup change for consumers of the nav (minor bump).
 - Add a collapsible nav at <= 860px: `.nav-toggle` (icon-only menu button, 36px with a 44px hit area, `.nav-toggle__icon` morphs to an X on `aria-expanded="true"`) and `.nav-menu` (disclosure panel; `.is-open` shows it). Opt-in: the panel and button only apply when `<html>` has the class `nav-enhanced`, set by a script before first paint.
